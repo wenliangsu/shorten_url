@@ -19,8 +19,14 @@ app.use(express.urlencoded({ extended: true }));
 
 //Section routes setting
 app.get("/", (req, res) => {
-  res.send("Test is working");
+  res.render("index");
 });
+
+//todo shorten the url
+app.post("/", (req, res) => {
+  console.log(req.body)
+  res.render("index")
+})
 
 //Section Express server listen
 app.listen(port, () => {
