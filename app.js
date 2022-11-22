@@ -12,8 +12,8 @@ const port = 3000;
 require("./config/mongoose");
 
 //Section set template engine
-app.engine("hbs", exphbs.engine({ defaultLayout: "main", extname: "hbs" }));
-app.set("view engine", "hbs");
+app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 //Section static file, body-parser
 app.use(express.static("public"));
@@ -29,7 +29,6 @@ app.get("/", (req, res) => {
 app.post("/", (req, res) => {
   const inputUrl = req.body.inputUrl;
 
-
   /* //note findOne() 使用的時候要用Schema裡面的名字，不可以直接使用設定好的變數名字，如果直接使用的話直接比對第二筆資料，因為會強制轉換Schema type變成網址換新的，但是短網址還是一直是第一個資料的短網址。 */
   UrlDatabase.findOne({ originalUrl: inputUrl })
     .lean()
@@ -38,10 +37,12 @@ app.post("/", (req, res) => {
       if (!data) {
         newUrl = `http://localhost:${port}/` + generateShortenUrl();
 
-
         UrlDatabase.create({ originalUrl: inputUrl, shortenUrl: newUrl })
           .then(() => res.render("shorten", { shortenUrl: newUrl }))
-          .catch((error) => console.log(error));
+          .catch((error) => {
+            console.log(error);
+            res.render("error", { message: error });
+          });
 
         //If it is already in database
       } else {
@@ -50,6 +51,18 @@ app.post("/", (req, res) => {
     });
 });
 
+//todo copy the link and go to the original website
+app.get("/:id", (req, res) => {
+  const urlEndWord = req.params.id;
+  const url = `http://localhost:${port}/${urlEndWord}`;
+  UrlDatabase.findOne({ shortenUrl: url })
+    .lean()
+    .then((data) => res.redirect(data.originalUrl))
+    .catch((error) => {
+      console.log(error);
+      res.render("error", { message: error });
+    });
+});
 
 //Section Express server listen
 app.listen(port, () => {

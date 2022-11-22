@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shorten URL</title>
+
+  {{! CSS original }}
+  <link rel="stylesheet" href="/stylesheets/bootstrap.css" />
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+  <script src="https://kit.fontawesome.com/0062a7ab09.js" crossorigin="anonymous"></script>
+</head>
+
+
+
+<body>
+  <div class="container mt-5" style="width: 400px;">
+    <div class="page-title text-center">
+      <h1>URL shortener </h1>
+    </div>
+
+    <div class="image">
+      <img src="https://assets-lighthouse.alphacamp.co/uploads/image/file/16716/ExportedContentImage_00.png"
+        class="rounded mx-auto d-block" style="width: 10rem;">
+    </div>
+  </div>
+
+  {{{body}}}
+
+  <script>
+    function copyText() {
+      let copyInput = document.getElementById('shorten-url')
+      let copied = document.getElementById('copy-button')
+      console.log(copyInput.value)
+      copyInput.select()
+
+      //note clipboard是為非同步現象(asynchrounous)，所以在執行過程中若是多了alert or confirm的話，則會立刻跳出視窗，然後便會出現未複製的錯誤--}}
+      navigator.clipboard.writeText(copyInput.value)
+      copied.innerText = 'Already copied'
+    }
+
+  
+  </script>
+
+
+
+
+  {{! Javascript }}
+  <script src="/javascripts/popper.js"></script>
+  <script src="/javascripts/bootstrap.js"></script>
+</body>
+
+</html>
