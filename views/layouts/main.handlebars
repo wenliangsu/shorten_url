@@ -32,16 +32,20 @@
   <script>
     function copyText() {
       let copyInput = document.getElementById('shorten-url')
-      let copied = document.getElementById('copy-button')
+      let copied = document.getElementById('btn-group')
       console.log(copyInput.value)
       copyInput.select()
 
       //note clipboard是為非同步現象(asynchrounous)，所以在執行過程中若是多了alert or confirm的話，則會立刻跳出視窗，然後便會出現未複製的錯誤--}}
       navigator.clipboard.writeText(copyInput.value)
-      copied.innerText = 'Already copied'
+      copied.innerHTML = `
+      <button type="submit" style="width: 100px;" class="btn btn-danger mt-4" id="copy-button" onclick="copyText()">
+        Already copied</button>
+      <a href="/" class="btn btn-primary ms-3 mt-4 pt-3" style="width: 100px;">Back</a>
+      `
     }
 
-  
+
   </script>
 
 
