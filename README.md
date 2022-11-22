@@ -32,7 +32,7 @@ MONGODB_URI =
 4. After installation, run
 
 ```
-npm run dev
+npm run start
 ```
 
 6. If terminal show the sentence below, means run successfully and click the url
